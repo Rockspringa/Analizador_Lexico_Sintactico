@@ -1,8 +1,9 @@
 package edu.CodePad.model.lexico.excepciones;
 
-import edu.CodePad.model.wrappers.Token;
+import edu.CodePad.model.contracts.AnalyzeException;
+import edu.CodePad.model.lexico.parts.wrappers.Token;
 
-public class InvalidCharacterException extends RuntimeException {
+public class InvalidCharacterException extends AnalyzeException {
 
     private final Token tokenInvalido;
 

@@ -1,4 +1,4 @@
-package edu.CodePad.model.analisis;
+package edu.CodePad.model.lexico.analisis;
 
 public enum Type {
 

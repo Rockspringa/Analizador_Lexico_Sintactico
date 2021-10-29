@@ -1,4 +1,4 @@
-package edu.CodePad.model.wrappers;
+package edu.CodePad.model.lexico.parts.wrappers;
 
 public class Coordenada {
     

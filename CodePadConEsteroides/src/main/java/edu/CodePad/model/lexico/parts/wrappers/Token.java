@@ -1,6 +1,6 @@
-package edu.CodePad.model.wrappers;
+package edu.CodePad.model.lexico.parts.wrappers;
 
-import edu.CodePad.model.analisis.Type;
+import edu.CodePad.model.lexico.analisis.Type;
 
 public class Token {
 
@@ -28,7 +28,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return this.lexema;
+        return this.lexema + " " + this.tipo + "\n";
     }
 
 }

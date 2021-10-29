@@ -1,6 +1,7 @@
 package edu.CodePad.model.contracts;
 
-import edu.CodePad.model.analisis.Type;
+import edu.CodePad.model.lexico.analisis.Type;
+import edu.CodePad.model.lexico.excepciones.InvalidCharacterException;
 
 public interface Automata {
     
@@ -9,7 +10,7 @@ public interface Automata {
      * @param ch es el caracter con el que se decidira a que estado cambiara el automata.
      * @return el estado o tipo actual del token.
      */
-    Type getNextState(char ch);
+    Type getNextState(char ch) throws InvalidCharacterException;
 
     /**
      * El metodo devolvera lo que exista en el log interno de transiciones, donde se encuentra cada

@@ -1,10 +1,10 @@
 package edu.CodePad.model.lexico.automatas;
 
-import edu.CodePad.model.analisis.Type;
 import edu.CodePad.model.contracts.Automata;
+import edu.CodePad.model.lexico.analisis.Type;
 import edu.CodePad.model.lexico.excepciones.InvalidCharacterException;
 import edu.CodePad.model.lexico.parts.Alfabeto;
-import edu.CodePad.model.wrappers.Token;
+import edu.CodePad.model.lexico.parts.wrappers.Token;
 
 /**
  * El objeto de AFDToken se encarga de ser el analizador de todos los tokens.
@@ -31,28 +31,30 @@ public class AFDToken implements Automata {
     private final Alfabeto alfabeto = new Alfabeto(
             new char[][] {  { '_', '_', 'a', 'z', 'A', 'Z' },
                             { '_', '_', '-', '-', 'a', 'z', 'A', 'Z' },
-                            { '-', '-', '1', '9' },
-                            { '0', '9' },
+                            { '-', '-' },
+                            { '0', '0' },
+                            { '1', '9' },
                             { '"', '"' },
-                            { '<', '>', ':', ';', ',', ',', '\'', '\'' },
+                            { '<', '<', '>', '>', ':', ';', ',', ',', '\'', '\'' },
                             { '*', '+', '-', '-' },
                             { '(', ')' },
                             { '/', '/' },
+                            { '=', '=' },
                             { ' ', ' ', '\t', '\t' },
                             { '\r', '\r', '\n', '\n', '\f', '\f' }
                         });
 
     private final int[][] transiciones = new int[][] {
-                            {  1, -1,  2, -1,  4, -1,  7,  6,  9,  0,  0 }, // 0. INICIO
-                            {  1,  1,  1,  1, -1, -1, -1,  6, -1,  0,  0 }, // 1. ID
-                            { -1, -1, -1,  2, -1, -1, -1,  6, -1,  0,  0 }, // 2. NUMBER
-                            { -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 3. LITERAL
-                            {  4,  4,  4,  4,  3,  4,  4,  4,  4,  4, -1 }, // 4. LITERAL_INCOMPLETO
-                            {  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  0 }, // 5. COMENTARIO
-                            {  1, -1,  2, -1, -1, -1, -1,  6, -1,  0,  0 }, // 6. AGRUPACION
-                            { -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 7. OPERADOR
-                            { -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 8. IGUAL
-                            { -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, -1 }, // 9. COMENTARIO_INCOMPLETO
+                            {  1, -1,  2, -1,  2,  4, -1,  7,  6,  9,  8,  0,  0 }, // 0. INICIO
+                            {  1,  1,  1,  1,  1, -1, -1, -1,  6, -1, -1,  0,  0 }, // 1. ID
+                            { -1, -1, -1,  2,  2, -1, -1, -1,  6, -1, -1,  0,  0 }, // 2. NUMBER
+                            { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 3. LITERAL
+                            {  4,  4,  4,  4,  4,  3,  4,  4,  4,  4,  4,  4, -1 }, // 4. LITERAL_INCOMPLETO
+                            {  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  0 }, // 5. COMENTARIO
+                            {  1, -1,  2, -1,  2, -1, -1, -1,  6, -1, -1,  0,  0 }, // 6. AGRUPACION
+                            { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 7. OPERADOR
+                            { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0 }, // 8. IGUAL
+                            { -1, -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, -1, -1 }, // 9. COMENTARIO_INCOMPLETO
                         };
 
     private final Type[] types = new Type[] {
@@ -76,7 +78,7 @@ public class AFDToken implements Automata {
      * @return la columna a la que pertenece dentro de la matriz de transiciones.
      * @throws InvalidCharacterException cuando el caracter no existe en el alfabeto.
      */
-    private int verifyCharacter(char ch) {
+    private int verifyCharacter(char ch) throws InvalidCharacterException {
         int col = alfabeto.getIndex(ch);
 
         if (col < 0 || col >= alfabeto.getCantConjuntos()) {
@@ -100,7 +102,7 @@ public class AFDToken implements Automata {
      * @return un entero que es el nuevo estado del automata.
      * @throws InvalidCharacterException cuando el nuevo estado es igual a -1.
      */
-    private int verifyNextState(int col, char ch) {
+    private int verifyNextState(int col, char ch) throws InvalidCharacterException {
         int tempState = transiciones[state][col];
 
         if (tempState < 0) {
@@ -134,7 +136,7 @@ public class AFDToken implements Automata {
     }
 
     @Override
-    public Type getNextState(char ch) {
+    public Type getNextState(char ch) throws InvalidCharacterException {
         int col = verifyCharacter(ch);
 
         String estado = "Transicion del estado '" + state + "' al estado '";
