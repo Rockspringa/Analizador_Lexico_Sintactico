@@ -1,4 +1,4 @@
-package edu.CodePad.controllers.concurrent;
+package edu.CodePad.controllers.analisis.concurrent;
 
 import edu.CodePad.model.contracts.Analizer;
 import edu.CodePad.model.contracts.AnalyzeException;

@@ -3,22 +3,21 @@ package edu.CodePad.model.lexico.parts.wrappers;
 import java.util.Iterator;
 
 import edu.CodePad.model.iterator.ObjectIterator;
-import edu.CodePad.model.lexico.analisis.Type;
 
-public class Token implements Iterable<Object> {
-
-    private final Type tipo;
+public class ErrorToken implements Iterable<Object> {
+    
+    private final String causa;
     private final String lexema;
     private final Coordenada coor;
 
-    public Token(Type tipo, String lexema, Coordenada coor) {
-        this.tipo = tipo;
+    public ErrorToken(String causa, String lexema, Coordenada coor) {
+        this.causa = causa;
         this.lexema = lexema;
         this.coor = coor;
     }
 
-    public Type getTipo() {
-        return this.tipo;
+    public String getCausa() {
+        return this.causa;
     }
 
     public String getLexema() {

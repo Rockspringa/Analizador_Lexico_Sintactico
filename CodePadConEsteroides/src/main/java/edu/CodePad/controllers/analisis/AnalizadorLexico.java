@@ -1,7 +1,8 @@
-package edu.CodePad.controllers;
+package edu.CodePad.controllers.analisis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import edu.CodePad.model.contracts.Analizer;
 import edu.CodePad.model.lexico.analisis.Type;
@@ -14,10 +15,12 @@ public class AnalizadorLexico implements Analizer {
 
     private StringBuilder lexema;
     private List<Token> tablaSimbolos;
+    private Queue<Token> queueSimbolos;
     private String contenido;
-    private Token actualToken;
+    private String log;
 
-    AnalizadorLexico(String contenido) {
+    AnalizadorLexico(String contenido, Queue<Token> queue) {
+        this.queueSimbolos = queue;
         this.tablaSimbolos = new ArrayList<>();
         this.contenido = contenido + '\n';
         this.lexema = new StringBuilder();
@@ -43,16 +46,6 @@ public class AnalizadorLexico implements Analizer {
         };
     }
 
-    public Token getToken() throws InterruptedException {
-        while (actualToken == null)
-            Thread.sleep(200);
-
-        Token token = actualToken;
-        actualToken = null;
-
-        return token;
-    }
-
     @Override
     public void analyze() throws InvalidCharacterException {
         Coordenada coorActual = new Coordenada(0, 1);
@@ -68,7 +61,7 @@ public class AnalizadorLexico implements Analizer {
                 if (isGuardable(typeOld)) {
                     Token token = new Token(typeOld, lexema.toString(), coorActual);
                     tablaSimbolos.add(token);
-                    actualToken = token;
+                    queueSimbolos.add(token);
                 }
                 if (typeOld != Type.LITERAL_INCOMPLETO)
                     lexema = new StringBuilder();
@@ -85,12 +78,24 @@ public class AnalizadorLexico implements Analizer {
                 col++;
             }
         }
+
+        this.log = afd.getLog();
+        Token dollar = new Token(Type.FINAL, "", coorActual);
+        queueSimbolos.add(dollar);
     }
 
     @Override
     public void detectErrors() {
         // TODO Auto-generated method stub
 
+    }
+
+    public Object[] getTablaSimbolos() {
+        return this.tablaSimbolos.toArray();
+    }
+
+    public String getLog() {
+        return this.log;
     }
 
 }

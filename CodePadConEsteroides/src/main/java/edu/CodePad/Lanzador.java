@@ -1,10 +1,18 @@
 package edu.CodePad;
 
-import java.time.LocalDate;
+import javax.swing.SwingUtilities;
+
+import edu.CodePad.view.Principal;
 
 public class Lanzador {
     
     public static void main(String[] args) {
-        System.out.print("Sin errores desde: " + LocalDate.now());
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new Principal();
+            }
+        });
     }
 }

@@ -18,4 +18,9 @@ public class Coordenada {
         return this.row;
     }
 
+    @Override
+    public String toString() {
+        return "Col: " + this.col + ", Fila: " + this.row;
+    }
+
 }
