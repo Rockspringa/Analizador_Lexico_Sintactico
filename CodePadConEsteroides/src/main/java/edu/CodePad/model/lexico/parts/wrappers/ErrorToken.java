@@ -7,13 +7,11 @@ import edu.CodePad.model.iterator.ObjectIterator;
 public class ErrorToken implements Iterable<Object> {
     
     private final String causa;
-    private final String lexema;
-    private final Coordenada coor;
+    private String lexema;
+    private Coordenada coor;
 
-    public ErrorToken(String causa, String lexema, Coordenada coor) {
+    public ErrorToken(String causa) {
         this.causa = causa;
-        this.lexema = lexema;
-        this.coor = coor;
     }
 
     public String getCausa() {
@@ -24,8 +22,16 @@ public class ErrorToken implements Iterable<Object> {
         return this.lexema;
     }
 
-    public Coordenada getCoordanas() {
+    public Coordenada getCoordenas() {
         return this.coor;
+    }
+
+    public void setLexema(String lexema) {
+        this.lexema = lexema;
+    }
+
+    public void setCoordenadas(Coordenada coor) {
+        this.coor = coor;
     }
 
     @Override

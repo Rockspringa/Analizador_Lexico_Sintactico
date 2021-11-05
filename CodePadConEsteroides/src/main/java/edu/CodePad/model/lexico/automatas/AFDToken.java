@@ -4,7 +4,7 @@ import edu.CodePad.model.contracts.Automata;
 import edu.CodePad.model.lexico.analisis.Type;
 import edu.CodePad.model.lexico.excepciones.InvalidCharacterException;
 import edu.CodePad.model.lexico.parts.Alfabeto;
-import edu.CodePad.model.lexico.parts.wrappers.Token;
+import edu.CodePad.model.lexico.parts.wrappers.ErrorToken;
 
 /**
  * El objeto de AFDToken se encarga de ser el analizador de todos los tokens.
@@ -87,7 +87,7 @@ public class AFDToken implements Automata {
             LOG.append(msg + "\n");
             state = 0;
 
-            throw new InvalidCharacterException(new Token(types[state], "", null));
+            throw new InvalidCharacterException(new ErrorToken(msg));
         }
 
         return col;
@@ -129,7 +129,7 @@ public class AFDToken implements Automata {
             LOG.append(msg + "\n");
             state = 0;
 
-            throw new InvalidCharacterException(new Token(types[state], "", null));
+            throw new InvalidCharacterException(new ErrorToken(msg));
         }
 
         return tempState;

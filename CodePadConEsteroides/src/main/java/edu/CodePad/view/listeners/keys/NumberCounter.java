@@ -30,6 +30,7 @@ public class NumberCounter implements KeyListener {
                     offset = Utilities.getRowStart(contPane, offset) - 1;
                     sb.append(lines++ + "\n");
                 }
+                sb.append("    \n");
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }

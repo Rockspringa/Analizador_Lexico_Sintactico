@@ -27,19 +27,22 @@ public class TablaData {
                     this.data[i][j++] = obj;
         }
 
-        if (iterables[0] instanceof Token) {
+        if (iterables.length > 0) {
+            if (iterables[0] instanceof Token) {
+                this.title = "Reporte de Tokens";
+                this.headers = new String[] { "Tipo de Token", "Lexema", "Coordenadas" };
+            }
+            
+            else if (iterables[0] instanceof ErrorToken) {
+                this.title = "Reporte de Errores";
+                this.headers = new String[] { "Causa del error", "Texto", "Coordenadas" };
+            } else {
+                this.title = "";
+                this.headers = new String[] { };
+            }
+        } else {
             this.title = "Reporte de Tokens";
             this.headers = new String[] { "Tipo de Token", "Lexema", "Coordenadas" };
-        }
-        
-        else if (iterables[0] instanceof ErrorToken) {
-            this.title = "Reporte de Errores";
-            this.headers = new String[] { "Causa del error", "Texto", "Coordenadas" };
-        }
-
-        else {
-            this.title = "";
-            this.headers = new String[] { };
         }
 
         this.log = lexico.getLog();

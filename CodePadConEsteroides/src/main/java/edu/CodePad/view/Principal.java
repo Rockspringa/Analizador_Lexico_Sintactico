@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,6 +17,7 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -38,9 +40,14 @@ public class Principal extends JFrame {
     private JTextPane textoPrincipal;
 
     private JMenuBar menuBar;
+
     private JMenuItem cargarBtn;
     private JMenuItem guardarBtn;
+
     private JMenuItem reporteBtn;
+
+    private String[] textos = { "Copiar", "Pegar" };
+    private Action[] actions = { new DefaultEditorKit.CopyAction(), new DefaultEditorKit.PasteAction() };
 
     static {
         UIManager.put("Table.font", JBRAINS);
@@ -50,7 +57,7 @@ public class Principal extends JFrame {
         UIManager.put("MenuItem.font", JBRAINS);
         UIManager.put("TableHeader.font", JB_BOLD);
         UIManager.put("ToggleButton.font", JB_BOLD);
-        
+
         UIManager.put("Label.background", Color.DARK_GRAY);
         UIManager.put("Label.foreground", Color.WHITE);
 
@@ -93,8 +100,7 @@ public class Principal extends JFrame {
         UIManager.put("Menu.background", Color.DARK_GRAY);
         UIManager.put("Menu.foreground", Color.WHITE);
         UIManager.put("Menu.border", BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(1, 1, 2, 1, Color.GRAY),
-                BorderFactory.createEmptyBorder(3, 5, 3, 5)));
+                BorderFactory.createMatteBorder(1, 1, 2, 1, Color.GRAY), BorderFactory.createEmptyBorder(3, 5, 3, 5)));
 
         UIManager.put("MenuItem.selectionBackground", Color.GRAY);
         UIManager.put("MenuItem.selectionForeground", Color.WHITE);
@@ -151,25 +157,38 @@ public class Principal extends JFrame {
         this.menuBar = new JMenuBar();
         this.setJMenuBar(this.menuBar);
 
-        JMenu menu = new JMenu("Menu");
-        this.menuBar.add(menu);
+        JMenu archivoMenu = new JMenu("Archivo");
+        this.menuBar.add(archivoMenu);
+
         /* Boton para cargar un archivo con un panel que lo coloque */
 
         this.cargarBtn = new JMenuItem("Cargar Archivo");
         this.cargarBtn.addActionListener(new CargarArchivo(this));
-        menu.add(cargarBtn);
+        archivoMenu.add(cargarBtn);
 
         /* Boton para guardar los cambios del archivo */
 
         this.guardarBtn = new JMenuItem("Guardar Archivo");
         this.guardarBtn.addActionListener(new GuardarArchivo(this));
-        menu.add(guardarBtn);
+        archivoMenu.add(guardarBtn);
+
+        JMenu analisisMenu = new JMenu("Analisis");
+        this.menuBar.add(analisisMenu);
 
         /* Boton para generar un reporte de tokens */
 
         this.reporteBtn = new JMenuItem("Generar Reporte");
         this.reporteBtn.addActionListener(reporteEvent);
-        menu.add(reporteBtn);
+        analisisMenu.add(reporteBtn);
+
+        JMenu editarMenu = new JMenu("Editar");
+        this.menuBar.add(editarMenu);
+
+        for (int i = 0; i < actions.length; i++) {
+            JMenuItem item = new JMenuItem(actions[i]);
+            item.setText(textos[i]);
+            editarMenu.add(item);
+        }
 
         /* Seteo de la informacion de la ventana */
 

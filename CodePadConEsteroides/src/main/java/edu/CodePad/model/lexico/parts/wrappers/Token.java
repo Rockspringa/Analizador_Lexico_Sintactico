@@ -25,7 +25,7 @@ public class Token implements Iterable<Object> {
         return this.lexema;
     }
 
-    public Coordenada getCoordanas() {
+    public Coordenada getCoordenas() {
         return this.coor;
     }
 

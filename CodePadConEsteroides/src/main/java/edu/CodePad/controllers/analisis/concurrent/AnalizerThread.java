@@ -17,7 +17,7 @@ public class AnalizerThread extends Thread {
         try {
             analizador.analyze();
         } catch (AnalyzeException e) {
-            e.printStackTrace();
+            analizador.detectErrors();
         }
     }
     

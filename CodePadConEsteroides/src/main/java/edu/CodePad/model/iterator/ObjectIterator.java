@@ -31,7 +31,7 @@ public class ObjectIterator implements Iterator<Object> {
             dato = switch (position) {
                 case 0 -> token.getTipo();
                 case 1 -> token.getLexema();
-                case 2 -> token.getCoordanas();
+                case 2 -> token.getCoordenas();
                 default -> new IndexOutOfBoundsException();
             };
 
@@ -43,7 +43,7 @@ public class ObjectIterator implements Iterator<Object> {
             dato = switch (position) {
                 case 0 -> token.getCausa();
                 case 1 -> token.getLexema();
-                case 2 -> token.getCoordanas();
+                case 2 -> token.getCoordenas();
                 default -> new IndexOutOfBoundsException();
             };
 

@@ -11,12 +11,15 @@ import edu.CodePad.model.viewSupps.TablaData;
 public class Analizador extends Thread {
 
     private Analizer lexico;
+    private Analizer sintaxis;
     private Thread hiloLexico;
+    private Thread hiloSintactico;
     private Queue<Token> tablaSimbolos;
 
     public Analizador(String content) {
         this.tablaSimbolos = new ConcurrentLinkedQueue<>();
         this.lexico = new AnalizadorLexico(content, this.tablaSimbolos);
+        this.sintaxis = new AnalizadorSintactico(this.tablaSimbolos);
     }
 
     private void analisisLexico() {
@@ -28,12 +31,13 @@ public class Analizador extends Thread {
         }
     }
 
-    private void analisisSintactico() {/*
-        while (hiloLexico.isAlive() || !tablaSimbolos.isEmpty()) {
-            Token token = tablaSimbolos.poll();
-            if (token != null)
-                System.out.print(token);
-        }*/
+    private void analisisSintactico() {
+        try {
+            hiloSintactico = new AnalizerThread(sintaxis, "Analizador sintactico");
+            hiloSintactico.start();
+        } catch (IllegalThreadStateException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isAnalizandoLexico() {
