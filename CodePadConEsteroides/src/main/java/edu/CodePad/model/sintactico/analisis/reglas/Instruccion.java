@@ -2,6 +2,7 @@ package edu.CodePad.model.sintactico.analisis.reglas;
 
 import edu.CodePad.model.contracts.Sintagma;
 import edu.CodePad.model.sintactico.analisis.arbol.Nodo;
+import edu.CodePad.model.sintactico.excepciones.VariableNoInicializada;
 
 public abstract class Instruccion extends NoTerminal {
 
@@ -11,6 +12,6 @@ public abstract class Instruccion extends NoTerminal {
         super(sintagmas);
     }
 
-    public abstract void doAction(Nodo nodo);
+    public abstract void doAction(Nodo nodo) throws VariableNoInicializada;
     
 }

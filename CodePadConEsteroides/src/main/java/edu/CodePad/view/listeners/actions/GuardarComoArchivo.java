@@ -11,12 +11,12 @@ import javax.swing.JTextPane;
 import edu.CodePad.controllers.files.WriterManager;
 import edu.CodePad.model.contracts.ExternManager;
 
-public class GuardarArchivo implements ActionListener {
+public class GuardarComoArchivo implements ActionListener {
 
     private JFrame window;
     private JTextPane textPane;
 
-    public GuardarArchivo(JFrame window, JTextPane textPane) {
+    public GuardarComoArchivo(JFrame window, JTextPane textPane) {
         this.window = window;
         this.textPane = textPane;
     }
@@ -24,7 +24,7 @@ public class GuardarArchivo implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            WriterManager writer = new WriterManager(window, textPane.getText(), WriterManager.GUARDAR);
+            WriterManager writer = new WriterManager(window, textPane.getText(), WriterManager.GUARDAR_COMO);
             window.setTitle("CodePad - " + writer.getTitle());
             JOptionPane.showMessageDialog(window, "El archivo se ha guardado con exito.", "Archivo guardado",
                     JOptionPane.INFORMATION_MESSAGE);

@@ -85,8 +85,6 @@ public class AutomataPila {
                 reduce(token);
             else
                 shift(token);
-        else
-            System.out.println("Reducido " + token);
     }
 
     private void shift(Token token) throws AnalyzeException {
@@ -94,7 +92,12 @@ public class AutomataPila {
         int row = getRow(noTerminal);
         int col = getCol(token);
 
-        Sintagma[] sintagmas = tablaAnalisis[row][col];
+        Sintagma[] sintagmas = null;
+        try {
+            sintagmas = tablaAnalisis[row][col];
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidTokenException(token);
+        }
 
         this.arbol.set(sintagmas);
 

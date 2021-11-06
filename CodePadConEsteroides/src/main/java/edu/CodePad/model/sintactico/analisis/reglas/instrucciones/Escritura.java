@@ -2,11 +2,12 @@ package edu.CodePad.model.sintactico.analisis.reglas.instrucciones;
 
 import edu.CodePad.model.contracts.Sintagma;
 import edu.CodePad.model.lexico.analisis.Type;
-import edu.CodePad.model.salida.Documento;
-import edu.CodePad.model.salida.Variables;
+import edu.CodePad.model.salida.compiles.Documento;
+import edu.CodePad.model.salida.compiles.Variables;
 import edu.CodePad.model.sintactico.analisis.arbol.Nodo;
 import edu.CodePad.model.sintactico.analisis.arbol.NodoHoja;
 import edu.CodePad.model.sintactico.analisis.reglas.Instruccion;
+import edu.CodePad.model.sintactico.excepciones.VariableNoInicializada;
 
 public class Escritura extends Instruccion {
 
@@ -15,7 +16,7 @@ public class Escritura extends Instruccion {
     }
 
     @Override
-    public void doAction(Nodo nodo) {
+    public void doAction(Nodo nodo) throws VariableNoInicializada {
         Nodo S = (Nodo) nodo.getHijos()[1];
         StringBuilder line = new StringBuilder();
 
@@ -28,7 +29,11 @@ public class Escritura extends Instruccion {
             NodoHoja nodoValor = ((NodoHoja) ((Nodo) S.getHijos()[0]).getHijos()[0]);
 
             if (nodoValor.getToken().getTipo() == Type.ID)
-                line.append(new Variables().getValor(nodoValor.getToken().getLexema()));
+                try {
+                    line.append(new Variables().getValor(nodoValor.getToken().getLexema()));
+                } catch (NullPointerException e) {
+                    throw new VariableNoInicializada(nodoValor.getToken().getLexema());
+                }
             else
                 line.append(Integer.parseInt(nodoValor.getToken().getLexema()));
         }

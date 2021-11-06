@@ -1,4 +1,4 @@
-package edu.CodePad.model.salida;
+package edu.CodePad.model.salida.compiles;
 
 import edu.CodePad.model.contracts.Stages;
 import edu.CodePad.model.salida.exceptions.NotAllowedForStage;

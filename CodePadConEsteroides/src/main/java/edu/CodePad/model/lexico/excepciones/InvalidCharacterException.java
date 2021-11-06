@@ -14,6 +14,6 @@ public class InvalidCharacterException extends AnalyzeException {
         String causa = this.tokenInvalido.getCausa();
         int col = this.tokenInvalido.getCoordenas().getCol();
         int row = this.tokenInvalido.getCoordenas().getRow();
-        return causa + " en la columna " + col + ", fila " + row + ".";
+        return causa + "Error en la columna " + col + ", fila " + row + ".";
     }
 }

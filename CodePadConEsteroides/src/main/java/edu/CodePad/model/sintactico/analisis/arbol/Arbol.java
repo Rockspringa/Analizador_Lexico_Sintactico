@@ -2,6 +2,7 @@ package edu.CodePad.model.sintactico.analisis.arbol;
 
 import javax.naming.OperationNotSupportedException;
 
+import edu.CodePad.model.contracts.AnalyzeException;
 import edu.CodePad.model.contracts.Sintagma;
 import edu.CodePad.model.lexico.parts.wrappers.Token;
 import edu.CodePad.model.sintactico.analisis.reglas.NoTerminal;
@@ -16,7 +17,7 @@ public class Arbol {
         this.raiz = new Nodo(sintagma);
     }
 
-    public void set(Token token) throws AnalisisTerminadoException {
+    public void set(Token token) throws AnalyzeException {
         try {
             this.raiz.set(token);
         } catch (AlreadySetted | NullPointerException | IndexOutOfBoundsException e) {
@@ -24,7 +25,7 @@ public class Arbol {
         }
     }
 
-    public void set(Sintagma[] sintagmas) throws AnalisisTerminadoException {
+    public void set(Sintagma[] sintagmas) throws AnalyzeException {
         try {
             this.raiz.set(sintagmas);
         } catch (OperationNotSupportedException | AlreadySetted | NullPointerException | IndexOutOfBoundsException e) {

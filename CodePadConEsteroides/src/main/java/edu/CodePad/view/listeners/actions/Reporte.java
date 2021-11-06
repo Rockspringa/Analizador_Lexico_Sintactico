@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.CodePad.view.Report;
-import edu.CodePad.view.listeners.focus.Analizar;
+import edu.CodePad.view.listeners.changes.Analizar;
 
 public class Reporte implements ActionListener {
 
@@ -20,16 +20,9 @@ public class Reporte implements ActionListener {
         if (report == null)
             report = new Report();
 
-        boolean setted = false;
-        while (analisis.getLexicoData() == null) {
-            if (analisis.getLexicoData() != null) {
-                report.setContent(analisis.getLexicoData());
-                setted = true;
-            }
-        }
+        while (analisis.getLexicoData() == null);
         
-        if (!setted)
-            report.setContent(analisis.getLexicoData());
+        report.setContent(analisis.getLexicoData());
 
         report.setVisible(true);
     }

@@ -2,13 +2,16 @@ package edu.CodePad.model.sintactico.analisis.arbol;
 
 import javax.naming.OperationNotSupportedException;
 
+import edu.CodePad.model.contracts.AnalyzeException;
 import edu.CodePad.model.contracts.Node;
 import edu.CodePad.model.contracts.Sintagma;
 import edu.CodePad.model.lexico.parts.wrappers.Token;
 import edu.CodePad.model.sintactico.analisis.reglas.Instruccion;
 import edu.CodePad.model.sintactico.analisis.reglas.NoTerminal;
 import edu.CodePad.model.sintactico.analisis.reglas.Terminal;
+import edu.CodePad.model.sintactico.analisis.reglas.comodines.NTN;
 import edu.CodePad.model.sintactico.excepciones.AlreadySetted;
+import edu.CodePad.model.sintactico.excepciones.VariableNoInicializada;
 
 public class Nodo implements Node {
 
@@ -36,11 +39,11 @@ public class Nodo implements Node {
         }
     }
 
-    private void callAction() {
+    private void callAction() throws VariableNoInicializada {
         Nodo nodo = (Nodo) hijos[posSet];
         if (nodo.sintagma instanceof Instruccion) {
             Instruccion ins = (Instruccion) nodo.sintagma;
-            if (! (this.sintagma instanceof Instruccion)) {
+            if (this.sintagma == NTN.L) {
                 ins.doAction(nodo);
             }
         }
@@ -54,7 +57,7 @@ public class Nodo implements Node {
         return this.hijos;
     }
 
-    public void set(Token token) throws AlreadySetted {
+    public void set(Token token) throws AnalyzeException {
         if (hijos[posSet] instanceof NodoHoja) {
             NodoHoja hoja = (NodoHoja) hijos[posSet];
 
@@ -75,7 +78,7 @@ public class Nodo implements Node {
         }
     }
 
-    public void set(Sintagma[] sintagmas) throws AlreadySetted, OperationNotSupportedException {
+    public void set(Sintagma[] sintagmas) throws OperationNotSupportedException, AnalyzeException {
         if (hijos == null) {
             this.setHijos(sintagmas);
         } else if (hijos[posSet] instanceof Nodo) {

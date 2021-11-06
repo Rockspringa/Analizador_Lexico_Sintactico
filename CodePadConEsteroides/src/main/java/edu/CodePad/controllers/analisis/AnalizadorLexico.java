@@ -147,8 +147,8 @@ public class AnalizadorLexico implements Analizer {
         return this.log;
     }
 
-    public StringBuilder getLogErrores() {
-        return logErrores;
+    public String getLogErrores() {
+        return logErrores.toString();
     }
 
 }

@@ -2,33 +2,27 @@ package edu.CodePad.view.listeners.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
-import edu.CodePad.controllers.files.ReaderManager;
 import edu.CodePad.model.contracts.ExternManager;
 
-public class CargarArchivo implements ActionListener {
+public class NuevoArchivo implements ActionListener {
 
     private final JFrame window;
     private final JTextPane textPane;
 
-    public CargarArchivo(JFrame window, JTextPane textPane) {
+    public NuevoArchivo(JFrame window, JTextPane textPane) {
         this.window = window;
         this.textPane = textPane;
     }
 
-    private void abrir() {
-        try {
-            ReaderManager reader = new ReaderManager(window, textPane);
-            window.setTitle("CodePad - " + reader.getTitle());
-        } catch (IOException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(window, "Hubo un error al abrir o leer el archivo.",
-                    "Error al cargar archivo", JOptionPane.ERROR_MESSAGE);
-        }
+    private void nuevo() {
+        this.textPane.setText("");
+        ExternManager.actualFile = null;
+        ExternManager.touched = false;
     }
 
     @Override
@@ -40,13 +34,13 @@ public class CargarArchivo implements ActionListener {
 
             if (opt == 0) {
                 new GuardarArchivo(window, textPane).actionPerformed(e);
-            }
-            if (opt < 2) {
-                abrir();
-                ExternManager.touched = false;
+                if (ExternManager.touched == false)
+                    nuevo();
+            } else if (opt == 1) {
+                nuevo();
             }
         } else
-            abrir();
+            nuevo();
     }
 
 }

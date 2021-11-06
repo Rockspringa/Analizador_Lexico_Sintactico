@@ -1,4 +1,4 @@
-package edu.CodePad.model.salida;
+package edu.CodePad.model.salida.compiles;
 
 import java.util.ArrayList;
 import java.util.HashMap;

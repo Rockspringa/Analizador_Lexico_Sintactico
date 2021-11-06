@@ -1,6 +1,7 @@
 package edu.CodePad.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -11,10 +12,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import edu.CodePad.model.contracts.UIManagerSetter;
 import edu.CodePad.model.viewSupps.TablaData;
 import edu.CodePad.view.table.ThreeColumnTable;
 
-public class Report extends JFrame {
+public class Report extends JFrame implements UIManagerSetter {
 
     private ThreeColumnTable contenidoTable;
     private JLabel contLabel;
@@ -36,7 +38,10 @@ public class Report extends JFrame {
 
         this.contLabel = new JLabel();
         this.contLabel.setHorizontalAlignment(JLabel.CENTER);
+        this.contLabel.setBackground(Color.DARK_GRAY);
+        this.contLabel.setForeground(Color.WHITE);
         this.contLabel.setOpaque(true);
+        this.contLabel.setFont(JB_BOLDER);
         this.contLabel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
         contenidoPanel.add(this.contLabel, BorderLayout.PAGE_START);
 
@@ -47,7 +52,10 @@ public class Report extends JFrame {
         this.logText.setSize(850, 200);
         this.logText.setEditable(false);
 
-        this.logScroll = new JScrollPane(this.logText);
+        JPanel tmpPanel = new JPanel(new BorderLayout());
+        tmpPanel.add(logText);
+
+        this.logScroll = new JScrollPane(tmpPanel);
         this.logScroll.setPreferredSize(new Dimension(100, 150));
         this.logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.logScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -58,7 +66,10 @@ public class Report extends JFrame {
         this.logLabel = new JLabel("Historial de Transiciones");
         this.logLabel.setHorizontalAlignment(JLabel.CENTER);
         this.logLabel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
+        this.logLabel.setBackground(Color.DARK_GRAY);
+        this.logLabel.setForeground(Color.WHITE);
         this.logLabel.setOpaque(true);
+        this.logLabel.setFont(JB_BOLDER);
         logPanel.add(this.logLabel, BorderLayout.PAGE_START);
 
         this.setBounds(50, 50, 850, 600);
