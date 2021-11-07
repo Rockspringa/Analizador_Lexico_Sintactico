@@ -77,7 +77,7 @@ public class AnalizadorLexico implements Analizer {
             if (ch == '\n') {
                 row++;
                 col = 0;
-            } else {
+            } else if (ch != '\r' && ch != '\f') {
                 col++;
             }
         }
@@ -129,7 +129,7 @@ public class AnalizadorLexico implements Analizer {
             if (ch == '\n') {
                 row++;
                 col = 0;
-            } else {
+            } else if (ch != '\r' && ch != '\f') {
                 col++;
             }
         }

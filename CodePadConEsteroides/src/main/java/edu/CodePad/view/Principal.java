@@ -16,14 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.Utilities;
 import javax.swing.undo.UndoManager;
 
 import edu.CodePad.model.contracts.UIManagerSetter;
@@ -35,6 +33,7 @@ import edu.CodePad.view.listeners.actions.GuardarArchivo;
 import edu.CodePad.view.listeners.actions.GuardarComoArchivo;
 import edu.CodePad.view.listeners.actions.NuevoArchivo;
 import edu.CodePad.view.listeners.actions.Reporte;
+import edu.CodePad.view.listeners.caret.CaretPosition;
 import edu.CodePad.view.listeners.changes.Analizar;
 import edu.CodePad.view.listeners.changes.AutoClose;
 import edu.CodePad.view.listeners.changes.CambiosArchivo;
@@ -53,7 +52,7 @@ public class Principal extends JFrame implements UIManagerSetter {
 
     private JScrollPane contadorScroll;
     private JTextPane textoContador;
-    
+
     private JScrollPane logScroll;
     private JTextPane textoLog;
 
@@ -77,7 +76,7 @@ public class Principal extends JFrame implements UIManagerSetter {
         runUIManager();
         /* Componentes para la parte de texto, numero de linea y demas */
 
-        this.panelPrincipal= new JPanel(new BorderLayout(0, 3));
+        this.panelPrincipal = new JPanel(new BorderLayout(0, 3));
         this.add(this.panelPrincipal, BorderLayout.CENTER);
 
         this.panelTexto = new JPanel(new BorderLayout(3, 0));
@@ -97,7 +96,7 @@ public class Principal extends JFrame implements UIManagerSetter {
 
         this.textoPrincipal = new JTextPane();
         this.textoLog = new JTextPane();
-        
+
         Analizar analizarEvent = new Analizar(this.textoPrincipal, textoLog);
         Reporte reporteEvent = new Reporte(analizarEvent);
 
@@ -125,7 +124,7 @@ public class Principal extends JFrame implements UIManagerSetter {
         Document document = textoPrincipal.getDocument();
 
         document.addUndoableEditListener(new Undoable(undoManager));
-        
+
         JPanel logPanel = new JPanel(new BorderLayout());
         this.panelPrincipal.add(logPanel, BorderLayout.PAGE_END);
 
@@ -144,9 +143,19 @@ public class Principal extends JFrame implements UIManagerSetter {
         logTmpPanel.add(this.textoLog);
 
         this.logScroll = new JScrollPane(logTmpPanel);
+        this.logScroll.setPreferredSize(new Dimension(100, 100));
         this.logScroll.getVerticalScrollBar().setUI(new BasicScrollBarUI());
         this.logScroll.getHorizontalScrollBar().setUI(new BasicScrollBarUI());
         logPanel.add(this.logScroll, BorderLayout.CENTER);
+
+        JLabel caretLabel = new JLabel();
+        caretLabel.setHorizontalAlignment(JLabel.RIGHT);
+        caretLabel.setBorder(BorderFactory.createEmptyBorder(2, 5, 1, 5));
+        caretLabel.setBackground(Color.DARK_GRAY);
+        caretLabel.setForeground(Color.LIGHT_GRAY);
+        caretLabel.setOpaque(true);
+        caretLabel.setFont(JBRAINS);
+        logPanel.add(caretLabel, BorderLayout.PAGE_END);
 
         this.actions[0] = new Undo(undoManager);
         this.actions[1] = new Redo(undoManager);
@@ -155,6 +164,8 @@ public class Principal extends JFrame implements UIManagerSetter {
 
         textoPrincipal.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
         textoPrincipal.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
+
+        this.textoPrincipal.addCaretListener(new CaretPosition(caretLabel));
 
         /* Componentes de la parte de botones */
 
@@ -169,11 +180,11 @@ public class Principal extends JFrame implements UIManagerSetter {
         this.nuevoBtn = new JMenuItem("Nuevo...");
         this.nuevoBtn.addActionListener(new NuevoArchivo(this, this.textoPrincipal));
         archivoMenu.add(nuevoBtn);
- 
+
         this.cargarBtn = new JMenuItem("Abrir...");
         this.cargarBtn.addActionListener(new CargarArchivo(this, this.textoPrincipal));
         archivoMenu.add(cargarBtn);
- 
+
         archivoMenu.addSeparator();
         /* Boton para guardar los cambios del archivo */
 
@@ -220,21 +231,10 @@ public class Principal extends JFrame implements UIManagerSetter {
 
     public void updateNumbers() {
         StringBuilder sb = new StringBuilder();
-        int lines = 1;
-        int offset = textoPrincipal.getDocument().getLength();
+        int max = textoPrincipal.getText().split("\n").length;
 
-        try {
-            while (offset > 0) {
-                offset = Utilities.getRowStart(textoPrincipal, offset) - 1;
-                sb.append(lines++ + "\n");
-            }
-        } catch (BadLocationException | NullPointerException e1) {
-            sb = new StringBuilder();
-            int max = textoPrincipal.getText().split("\n").length;
-
-            for (int i = 1; i <= max; i++)
-                sb.append(i + "\n");
-        }
+        for (int i = 1; i <= max; i++)
+            sb.append(i + "\n");
         sb.append("    \n");
 
         textoContador.setText(sb.toString());

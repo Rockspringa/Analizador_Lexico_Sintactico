@@ -29,6 +29,7 @@ public class GuardarComoArchivo implements ActionListener {
             JOptionPane.showMessageDialog(window, "El archivo se ha guardado con exito.", "Archivo guardado",
                     JOptionPane.INFORMATION_MESSAGE);
             ExternManager.touched = false;
+            window.setTitle("CodePad - " + ExternManager.actualFile.getName());
         } catch (NullPointerException | IOException e1) {
             JOptionPane.showMessageDialog(window,
                     "Ocurrio un error al momento de intentar guardar el archivo, vuelva a intentarlo.",

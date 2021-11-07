@@ -20,6 +20,7 @@ public class NuevoArchivo implements ActionListener {
     }
 
     private void nuevo() {
+        window.setTitle("CodePad");
         this.textPane.setText("");
         ExternManager.actualFile = null;
         ExternManager.touched = false;

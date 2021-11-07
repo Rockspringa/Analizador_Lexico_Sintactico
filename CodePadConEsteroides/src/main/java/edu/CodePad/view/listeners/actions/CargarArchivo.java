@@ -25,6 +25,7 @@ public class CargarArchivo implements ActionListener {
         try {
             ReaderManager reader = new ReaderManager(window, textPane);
             window.setTitle("CodePad - " + reader.getTitle());
+            
         } catch (IOException | NullPointerException ex) {
             JOptionPane.showMessageDialog(window, "Hubo un error al abrir o leer el archivo.",
                     "Error al cargar archivo", JOptionPane.ERROR_MESSAGE);
