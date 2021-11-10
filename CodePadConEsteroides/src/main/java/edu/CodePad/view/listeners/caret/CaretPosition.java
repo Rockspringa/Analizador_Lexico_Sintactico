@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.text.BadLocationException;
 
 public class CaretPosition implements CaretListener {
 
@@ -21,10 +22,9 @@ public class CaretPosition implements CaretListener {
         int col = 0;
 
         int caret = textPane.getCaretPosition();
-        char[] chars = textPane.getText().toCharArray();
-
         try {
-            for (int i = 0; i <= caret; i++) {
+            char[] chars = textPane.getDocument().getText(0, caret).toCharArray();
+            for (int i = 0; i < caret; i++) {
                 if (chars[i] == '\n') {
                     line++;
                     col = 0;
@@ -32,15 +32,7 @@ public class CaretPosition implements CaretListener {
                     col++;
                 }
             }
-        } catch (IndexOutOfBoundsException ex) {
-            if (chars.length > 0) {
-                if (chars[chars.length - 1] == '\n' || chars[chars.length - 1] == '\r') {
-                    line++;
-                    col = 0;
-                } else {
-                    col++;
-                }
-            }
+        } catch (BadLocationException e1) {
         }
 
         int diff = textPane.getSelectionEnd() - textPane.getSelectionStart();
