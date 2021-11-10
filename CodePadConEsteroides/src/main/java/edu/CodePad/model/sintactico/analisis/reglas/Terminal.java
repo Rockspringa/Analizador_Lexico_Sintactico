@@ -26,4 +26,13 @@ public class Terminal implements Sintagma {
         return tipo.equals(token.getTipo()) && (keyWord == null || keyWord.equals(token.getLexema()));
     }
 
+    @Override
+    public String toString() {
+        if (keyWord != null)
+            return keyWord;
+        if (tipo != null)
+            return tipo.toString();
+        return "Epsylon";
+    }
+
 }

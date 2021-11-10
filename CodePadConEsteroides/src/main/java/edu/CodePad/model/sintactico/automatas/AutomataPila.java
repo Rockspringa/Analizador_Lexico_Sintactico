@@ -1,7 +1,9 @@
 package edu.CodePad.model.sintactico.automatas;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 import edu.CodePad.model.contracts.AnalyzeException;
 import edu.CodePad.model.contracts.Sintagma;
@@ -73,7 +75,7 @@ public class AutomataPila {
     private void reduce(Token token) throws AnalyzeException {
         Terminal terminal = (Terminal) this.pila.pop();
         if (! terminal.isCorrectToken(token))
-            throw new InvalidTokenException(token);
+            throw new InvalidTokenException(token, terminal);
         
         if (terminal == Generales.EPSILON)
             this.arbol.set(new Token(null, "", null));
@@ -95,8 +97,14 @@ public class AutomataPila {
         Sintagma[] sintagmas = null;
         try {
             sintagmas = tablaAnalisis[row][col];
+            if (sintagmas == null)
+                throw new IndexOutOfBoundsException();
         } catch (IndexOutOfBoundsException e) {
-            throw new InvalidTokenException(token);
+            List<Terminal> terminalesEsperados = new ArrayList<>();
+            for (int i = 0; i < tablaAnalisis[row].length; i++)
+                if (tablaAnalisis[row][i] != null)
+                    terminalesEsperados.add(cols[i]);
+            throw new InvalidTokenException(token, terminalesEsperados.toArray(new Terminal[0]));
         }
 
         this.arbol.set(sintagmas);
